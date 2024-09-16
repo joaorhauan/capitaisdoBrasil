@@ -22,16 +22,16 @@ def create():
         email = request.form['email']
         senha = request.form['senha']
 
-        #md5 = hashlib.md5()
-        #md5.update(str(senha))
-        #senha_cripto = md5.hexdigest().encode('utf-8')
+        md5 = hashlib.md5()
+        md5.update(senha.encode('utf-8'))
+        senha_cripto = md5.hexdigest()
 
         email_existente = Usuario.query.filter_by(email=email).first()
         if email_existente:
             flash('Email existente!')
             return render_template('usuario_create.html')
         else:
-            u = Usuario(nome, email, senha)
+            u = Usuario(nome, email, senha_cripto)
             db.session.add(u)
             db.session.commit()
             login_user(u)
@@ -49,7 +49,11 @@ def autenticar():
     senha = request.form['senha']
     usuario = Usuario.query.filter_by(email=email).first()
 
-    if (usuario and usuario.senha == senha):
+    md5 = hashlib.md5()
+    md5.update(senha.encode('utf-8'))
+    senha_cripto = md5.hexdigest()
+
+    if (usuario and usuario.senha == senha_cripto):
         login_user(usuario)
         return redirect(url_for('usuario.recovery'))
     else:

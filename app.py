@@ -7,8 +7,6 @@ from controllers.diario import bp_diario
 from controllers.usuario import bp_usuario
 from controllers.capitais import bp_capitais
 
-
-
 app = Flask(__name__)
 app.register_blueprint(bp_diario, url_prefix='/diario') #url prefix
 app.register_blueprint(bp_usuario, url_prefix='/usuario')

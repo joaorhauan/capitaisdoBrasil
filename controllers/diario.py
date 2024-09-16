@@ -10,7 +10,7 @@ bp_diario = Blueprint("diario", __name__, template_folder='templates')
 @login_required
 def recovery():
     id_usuario = current_user.id
-    dados = Diario.query.filter_by(id_usuario=id_usuario).all
+    dados = Diario.query.filter_by(id_usuario=id_usuario).all()
     return render_template('diario_recovery.html', dados=dados)
 
 @bp_diario.route('/create', methods=['GET', 'POST'])
